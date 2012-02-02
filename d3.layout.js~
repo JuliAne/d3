@@ -56,7 +56,6 @@ function d3_layout_bundleLeastCommonAncestor(a, b) {
   }
   return sharedNode;
 }
-
 d3.layout.chord = function() {
   var chord = {},
       chords,
