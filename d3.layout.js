@@ -163,21 +163,21 @@ d3.layout.chord = function() {
           if (source.value < target.value) {
 	  	var group = groups[source.index];
 	  	if (group.startAngle == source.startAngle){
-	  		source.startAngle += 0.025/2;
-	  		source.endAngle += 0.025/2;}
+	  		source.startAngle += (group.endAngle - group.startAngle)/2;
+	  		source.endAngle += (group.endAngle - group.startAngle)/2;}
 	  	else if (group.endAngle == source.endAngle){
-	  		source.startAngle -= 0.025/2;
-	  		source.endAngle -= 0.025/2;}
+	  		source.startAngle -= (group.endAngle - group.startAngle)/2;
+	  		source.endAngle -= (group.endAngle - group.startAngle)/2;}
           	chords.push({source: target, target: source});}
 		
           else {
 	  	var group = groups[target.index];
 	  	if (group.startAngle == target.startAngle){
-	  		target.startAngle += 0.025/2;
-	  		target.endAngle += 0.025/2;}
+	  		target.startAngle += (group.endAngle - group.startAngle)/2;
+	  		target.endAngle += (group.endAngle - group.startAngle)/2;}
 	  	else if (group.endAngle == target.endAngle){
-	  		target.startAngle -= 0.025/2;
-	  		target.endAngle -= 0.025/2;
+	  		target.startAngle -= (group.endAngle - group.startAngle)/2;
+	  		target.endAngle -= (group.endAngle - group.startAngle)/2;
 	  		}
          	chords.push({source: source, target: target});}
 	 
