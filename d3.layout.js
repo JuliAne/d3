@@ -127,11 +127,7 @@ d3.layout.chord = function() {
           endAngle: a1,
           value: v //binäre Werte für ausgehende Verbindungen aus der quadratischen Beziehungs-Matrix --> je Index 23 Werte --> gesamt 23²
         };
-	if (matrix[i][j] == 0){
-	//x += (0.025/2)
-        }else{	
-	x += (v * k)/3 //Padding für Graphen des Nodes
-	}	
+	x += (v * k)/3 //Padding für Graphen des Nodes	
 	//alert("subgroups: " + subgroups[di + "-" + dj].index +  ", start: " + subgroups[di + "-" + dj].startAngle + ", end: " + subgroups[di + "-" + dj].endAngle + ", value: " + subgroups[di + "-" + dj].value);
       }
       if (x0 == x){
@@ -143,22 +139,16 @@ d3.layout.chord = function() {
         endAngle: x,
         value: (x - x0) / k //Anzahl ausgehender Verbindungen je Node
       });
-      //alert("x: " + x + ", x0: " + x0);
-
       x += padding;
-
       //alert("groups: " + groups[di].index + ", value: " + groups[di].value + ", start: " + groups[di].startAngle + ", end: " + groups[di].endAngle);
 
     }
 
     // Generate chords for each (non-empty) subgroup-subgroup link.
     i = -1; while (++i < n) {
-
-       alert(i);
       j = i - 1; while (++j < n) {
         var source = subgroups[i + "-" + j],
             target = subgroups[j + "-" + i];
-	//alert("SourceValue:" + source.value + "SourceIndex:" + source.index + "TargetValue:"+ target.value + "TargetIndex:" + target.index);
         if (source.value || target.value){
           if (source.value < target.value) {
 	  	var group = groups[source.index];
@@ -186,7 +176,6 @@ d3.layout.chord = function() {
 		
         }
       }
-	//alert("Index: " + chords[i].source.index + "SourceSTART: " + chords[i].source.startAngle + "SourceEND: " + chords[i].source.endAngle + "Value: " + chords[i].source.value + ", i:" + i);
     }
   }
   
