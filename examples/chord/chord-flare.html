@@ -26,7 +26,7 @@ path{
 .clickarea{
 width: 280px;
 height: 280px;
-margin: 29% 0 0 16%;
+margin: 210px 0 0 16%;
 z-index: 1;
 position: absolute;
 cursor: pointer;
@@ -43,7 +43,9 @@ z-index: 0;
     <script type="text/javascript">
 var fader = false;
 var index = [];
-
+var index2 = [];
+var a = 0;
+var b = 0;
 var r1 = 700 / 2,
     r0 = r1 - 140;
 
@@ -109,8 +111,8 @@ d3.json("../data/flare-imports.json", function(imports) {
     .enter().append("g")
 
   node.append("path")
-      .style("fill", "#474646")
-      .style("stroke","#474646")
+      .style("fill", "#666666")
+      .style("stroke","#666666")
       .attr("d", arc)
       .on("mouseover", fade_mover(0))
       .on("mouseout", fade_mout(1));
@@ -130,8 +132,8 @@ d3.json("../data/flare-imports.json", function(imports) {
       .data(chord.chords)
     .enter().append("path")
       .attr("class", "chord")
-      .style("stroke", "#9c0957")
-      .style("fill", "#9c0957" )
+      .style("stroke", "#999999")
+      .style("fill", "#999999" )
       .attr("d", d3.svg.chord().radius(r0))
       .style("opacity", 0);
 
@@ -139,75 +141,117 @@ d3.json("../data/flare-imports.json", function(imports) {
 //show or hide chords of selected node by mouseover (depends on switching opacity on/ off in function fade2)
 function fade_mover(opacity) {
   return function(g, i) {
+    a = 0;
+    b = 0;
+    index = [];
+    index2 = [];
     svg.selectAll("path.chord")
         .filter(function(d) {
-	//if (d.target.index == i){
-	//index = d.target.index;}
-        //alert(d.target.index);
+	if (d.source.index == i){
+	index[a] = [d.target.index];
+	a += 1;}
+	if (d.target.index == i){
+	index2[b] = [d.source.index];
+	b += 1;}
 	if (fader == false){
         	opacity = 1;
-		return d.source.index == i || d.target.index == i;}
+		return d.source.index == i || d.target.index == i;
+		}
 	else if (fader == true) {
 		opacity = 0;
 		return d.source.index != i && d.target.index != i;}
         })
       .transition()
-	//.style("stroke", "#8cd913")
-	//.style("fill", "#8cd913")
         .style("opacity", opacity)
 	.duration(400)
-    
-    svg.selectAll("path")
-        .filter(function(d) {
-         //alert(d.index);
-	return d.index == i;
-	 //alert(d.imports);
-        })
-      .transition()
-	.style("stroke", "#8cd913")
-	.style("fill", "#8cd913");
-        //.style("opacity", opacity)
-	//.duration(400);
+
+    index.forEach(function(ind){
+	    svg.selectAll("path")
+		.filter(function(d) {
+		 return d.index == ind;	
+		index = [];
+		a = 0;
+	    })
+	      .transition()
+		.style("stroke", "#0d50f6")
+		.style("fill", "#0d50f6");
+     });
+     index2.forEach(function(ind2){
+	    svg.selectAll("path")
+		.filter(function(d) {
+		 return d.index == ind2;	
+		index2 = [];
+		b = 0;
+	    })
+	      .transition()
+		.style("stroke", "#0cb0f6")
+		.style("fill", "#0cb0f6");
+     });
+     svg.selectAll("path")
+		.filter(function(d) {
+			return d.index == i;	
+	    	})
+	      .transition()
+		.style("stroke", "#ff0442")
+		.style("fill", "#ff0442");
   };
-
-
-  //return function(g, i) {
-    //svg.selectAll("path")
-      //  .filter(function(d) {
-	
-    //return d.index == i;
-	//color = "#8cd913";
-        //})
-      //.transition()
-       // .style("stroke", color)
-	//.style("fill", color);
-
-   //};
 };
 //show or hide chords of selected node by mouseout (depends on switching opacity on/ off in function fade2)
 function fade_mout(opacity) {
   return function(g, i) {
+    a = 0;
+    b = 0;
+    index = [];
+    index2 = [];
     svg.selectAll("path.chord")
         .filter(function(d) {
-	if (fader == false){
-	opacity = 0;
-	return d.source.index == i || d.target.index == i;}
-	else if (fader == true) {
-	opacity = 1;
-	return d.source.index != i && d.target.index != i;}
-        })
+		if (d.source.index == i){
+			index[a] = [d.target.index];
+			a += 1;}
+		if (d.target.index == i){
+			index2[b] = [d.source.index];
+			b += 1;}
+		if (fader == false){
+			opacity = 0;
+			return d.source.index == i || d.target.index == i;}
+		else if (fader == true) {
+			opacity = 1;
+			return d.source.index != i && d.target.index != i;}
+        	})
       .transition()
         .style("opacity", opacity)
 	.duration(400)
 
+     index.forEach(function(ind){
+	    svg.selectAll("path")
+		.filter(function(d) {
+		 	return d.index == ind;	
+			index = [];
+			a = 0;
+	   	 })
+	      .transition()
+		.style("stroke", "#666666")
+		.style("fill", "#666666");
+     });
+
+     index2.forEach(function(ind2){
+	    svg.selectAll("path")
+		.filter(function(d) {
+		 	return d.index == ind2;	
+			index2 = [];
+			b = 0;
+	    	})
+	      .transition()
+		.style("stroke", "#666666")
+		.style("fill", "#666666");
+     });
     svg.selectAll("path")
         .filter(function(d) {
-	return d.index == i;
-	
-        })
+		return d.index == i;
+	 })
       .transition()
-	.style("stroke", "#474646")
-	.style("fill", "#474646");
+	.style("stroke", "#666666")
+	.style("fill", "#666666");
   };
 };
 //show or hide all chords by clicking the center of the circle
